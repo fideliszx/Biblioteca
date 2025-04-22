@@ -5,8 +5,7 @@ from django.contrib import messages
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
-        livros = Livro.objects.all()
-        return render(request, 'index.html', 'livros.html', {'livros': livros})
+        return render(request, 'index.html')
     def post(self, request):
         pass
 
@@ -51,9 +50,3 @@ class GenerosView(View):
         generos = Genero.objects.all()
         return render(request, 'genero.html', {'generos':
 generos})
-    
-class DeleteLivroView(View):
-    def get(self, request, id, *args, **kwargs):
-        livro = Livro.objects.get(id=id)
-        livro.delete().messages.success(request, 'Livro excluído com sucesso!') # Success message
-        return redirect('livros')

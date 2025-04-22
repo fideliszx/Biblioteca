@@ -64,41 +64,6 @@ navigation">
 er.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.mi
 n.js"></script>
-
-    <tbody>
-        {% for livros in livros %}
-        <tr>
-            <td>{{ livros.nome }}</td>
-            <td>{{ livros.autor }}</td>
-            <td>{{ livros.editora }}</td>
-            <td>
-                {% for genero in livros.genero.all %}
-                {{ genero.nome }}{% if not forloop.last %},
-                {% endif %}
-                {% endfor %}
-            </td>
-            <td>{{ livros.preco }}</td>
-            <td>{{ livros.data_plub }}</td>
-            <td>{{ livros.status }}</td>
-            <td><a href="delete/{{ livros.id }}" class="btn btn-danger">Excluir</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">Autor</th>
-                <th scope="col">Editora</th>
-                <th scope="col">Gênero</th>
-                <th scope="col">Preço</th>
-                <th scope="col">Data Publicação</th>
-                <th scope="col">Status</th>
-                <th scope="col">Excluir</th>
-            </tr>
-        </thead>
-
 </body>
 
 </html
