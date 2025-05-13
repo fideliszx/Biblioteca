@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
 import os
 from pathlib import Path
 
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%h4xn)yq8ekl=#97p_pnki#cm7l856%rq^g$4j1-369xl=!hvm'
+SECRET_KEY = 'django-insecure-a=#ki2$*k+_al*v8p@c)t@p!-2nnk09203hs#^mx7l^f5g8k0z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +59,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'app/templates')
+            os.path.join(BASE_DIR, 'app/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -79,9 +82,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bibliotecag',
+        'NAME': 'biblioteca_g',
         'USER': 'postgres',
         'PASSWORD': '123456',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -105,6 +109,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = ['bootstrap5']
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -124,8 +130,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(STATIC_URL, "static")
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "app/static/")
+    os.path.join(BASE_DIR, "app/static/"),
 ]
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

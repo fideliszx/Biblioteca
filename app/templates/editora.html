@@ -52,17 +52,20 @@ bg-success">
         </div>
     </nav>
     <div class="container mt-5">
-        <h2 class="mb-4">Tabela de Gêneros</h2>
+        <h2 class="mb-4">Tabela de Editoras</h2>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Gênero</th>
-                </tr>
+                    <th scope="col">Nome da Editora</th>
+                    <th scope="col">Site da Editora</th>
+                    <th scope="col">Cidade da Editora</th>
             </thead>
             <tbody>
-                {% for generos in generos %}
+                {% for editoras in editoras %}
                 <tr>
-                    <td>{{ generos.nome }}</td>
+                    <td>{{ editoras.nome }}</td>
+                    <td>{{ editoras.site }}</td>
+                    <td>{{ editoras.cidade }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -70,7 +73,7 @@ bg-success">
     </div>
     <!-- Incluindo jQuery e Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
