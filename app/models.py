@@ -1,5 +1,3 @@
-# Create your models here.
-
 from django.db import models
 
 class Cidade(models.Model):
@@ -11,54 +9,84 @@ class Cidade(models.Model):
         verbose_name = "Cidade"
         verbose_name_plural = "Cidades"
 
-class Autor(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Nome do autor")
-    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE, verbose_name="Cidade do autor")
-    def __str__(self):
-        return self.nome
-    class Meta:
-        verbose_name = "Autor"
-        verbose_name_plural = "Autores"
 
-class Editora(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Nome da editora")
-    site = models.CharField(max_length=100, verbose_name="Site da editora")
-    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE, verbose_name="Cidade da editora")
-    def __str__(self):
-        return self.nome
-    class Meta:
-        verbose_name = "Editora"
-        verbose_name_plural = "Editoras"
-        
-class Leitor(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Nome do leitor")
-    email = models.CharField(max_length=100, verbose_name="Email do leitor")
-    cpf = models.CharField(max_length=11, unique=True, verbose_name="CPF do leitor")
-    def __str__(self):
-        return self.nome
-    class Meta:
-        verbose_name = "Leitor"
-        verbose_name_plural = "Leitores"
+class Ocupacao(models.Model):
+    ocupacao = models.CharField(max_length = 100, verbose_name = "Ocupação")
 
-class Genero(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Gênero")
-    def __str__(self):
-        return self.nome
-class Meta:
-    verbose_name = "Gênero"
-    verbose_name_plural = "Gêneros"
-
-class Livro(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Nome do livro")
-    autor = models.ForeignKey(Autor, on_delete=models.CASCADE, verbose_name="Autor do livro")
-    editora = models.ForeignKey(Editora, on_delete=models.CASCADE, verbose_name="Editora do livro")
-    genero = models.ForeignKey(Genero, on_delete=models.CASCADE, verbose_name="Gênero do livro")
-    preco = models.IntegerField(verbose_name="Preço do livro")
-    data_plub = models.DateField(verbose_name="Data de publicação do livro")
-    status = models.BooleanField(verbose_name="Status do livro")
+class Pessoa(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Nome da Pessoa")
+    pai = models.CharField(max_length = 100, verbose_name = "Nome do Pai")
+    mae = models.CharField(max_length = 100, verbose_name = "Nome da Mãe")
+    cpf = models.CharField(max_length = 14, verbose_name = "CPF")
+    email = models.EmailField(max_length = 100, verbose_name = "EMAIL", unique = True)
+    data_nasc = models.DateField(verbose_name = "Data de Nascimento")
+    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE,verbose_name="Cidade")
+    ocupacao = models.ForeignKey(Ocupacao, on_delete=models.CASCADE, verbose_name = "Ocupação")
 
     def __str__(self):
-        return f'{self.nome}, {self.autor}'
-    class Meta:
-        verbose_name = "Livro"
-        verbose_name_plural = "Livros"
+        return self.nome
+    
+class InstituicaoEnsino(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Nome da instituição")
+    site = models.URLField(max_length = 254, verbose_name = "Link do Site")
+    telefone = models.CharField(max_length = 20, verbose_name = "Telefone")
+    cidade = models.ForeignKey(Cidade, on_delete = models.CASCADE, verbose_name = "Cidade da Instituição")
+
+class AreaSaber(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Nome da Area Saber")
+
+class Curso(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Nome do Curso")
+    carga_horaria_total = models.DurationField(verbose_name = "Carga Horária total")
+    duracao_meses = models.PositiveIntegerField(verbose_name = "Duração do Curso")
+    areasaber = models.ForeignKey(AreaSaber, on_delete = models.CASCADE, verbose_name = "Area do Saber")
+    instituicao = models.ForeignKey(InstituicaoEnsino, on_delete = models.CASCADE, verbose_name = "Instituição de Ensino")
+
+class Turma(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Nome da Turma")
+
+class Disciplina(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Nome da Disciplina")
+    areasaber = models.ForeignKey(AreaSaber, on_delete = models.CASCADE, verbose_name = "Area do Saber")
+
+class Matricula(models.Model):
+    instituicao = models.ForeignKey(InstituicaoEnsino, on_delete = models.CASCADE, verbose_name = "Instituição")
+    curso = models.ForeignKey(Curso, on_delete = models.CASCADE, verbose_name = "Nome do Curso")
+    pessoa = models.ForeignKey(Pessoa, on_delete = models.CASCADE, verbose_name = "Pessoa")
+    data_inicio = models.DateField(verbose_name = "Data de Inicio")
+    data_previsao_termino = models.DateField(verbose_name = "Data de Previsão de Termino")
+
+class AvaliacaoTipo(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Tipo de Avaliação")
+
+class Avaliacao(models.Model):
+    descricao = models.CharField(max_length = 100, verbose_name = "Descrição")
+    curso = models.ForeignKey(Curso, on_delete = models.CASCADE, verbose_name = "Curso")
+    disciplina = models.ForeignKey(Disciplina, on_delete = models.CASCADE, verbose_name = "Curso")
+    avaliacaotipo = models.ForeignKey(AvaliacaoTipo, on_delete = models.CASCADE, verbose_name = "Tipo de Avaliação")
+
+class Frequencia(models.Model):
+    curso = models.ForeignKey(Curso, on_delete = models.CASCADE, verbose_name = "Curso")
+    disciplina = models.ForeignKey(Disciplina, on_delete = models.CASCADE, verbose_name = "Curso")
+    pessoa = models.ForeignKey(Pessoa,
+    on_delete = models.CASCADE, verbose_name = "Pessoa")
+    numero_faltas = models.PositiveIntegerField(verbose_name = "Numero de Faltas")
+
+class Turnos(models.Model):
+    nome = models.CharField(max_length = 100, verbose_name = "Turnos")
+
+class Ocorrencias(models.Model):
+    descricao = models.CharField(max_length = 300, verbose_name = "Descrição da Ocorrencia/Advertencia")
+    data = models.DateField(verbose_name = "Data da Ocorrencia/Advertencia")
+    curso = models.ForeignKey(Curso, on_delete = models.CASCADE, verbose_name = "Curso")
+    disciplina = models.ForeignKey(Disciplina, on_delete = models.CASCADE, verbose_name = "Curso")
+    pessoa = models.ForeignKey(Pessoa,
+    on_delete = models.CASCADE, verbose_name = "Pessoa")
+
+class CursoDisciplina(models.Model):
+    disciplina = models.ForeignKey(Disciplina, on_delete = models.CASCADE, verbose_name = "Curso")
+    carga_horaria = models.DurationField(verbose_name = "Carga Horária")
+    curso = models.ForeignKey(Curso, on_delete = models.CASCADE, verbose_name = "Curso")
+    periodo = models.ForeignKey(Turma, on_delete = models.CASCADE, verbose_name = "Periodo")
+
+# Create your models here.
